@@ -1,0 +1,126 @@
+import { Palette, Figma, Code2, Camera, Video, Crown } from 'lucide-react';
+import type { ServiceItem } from '../types';
+
+export const services: ServiceItem[] = [
+  {
+    id: 'graphic-design',
+    icon: Palette,
+    iconColorClass: 'text-blue-400',
+    bgGradientClass: 'bg-gradient-to-br from-blue-500/10 to-blue-500/5 dark:bg-blue-500/10',
+    borderColorClass: 'border-blue-500/20 border-blue-500/10',
+    title: 'Graphic Design',
+    description:
+      "Stunning visuals that communicate your brand's story with clarity and impact across all mediums.",
+    hoverTextClass: 'text-primary',
+    longDescription:
+      'From social media graphics to print collateral, I design visuals that stay true to your brand system while standing out in a crowded feed or a stack of flyers. Every asset starts with a clear message, then gets the craft to make it memorable.',
+    features: [
+      'Social media graphics & templates',
+      'Print design (flyers, brochures, packaging)',
+      'Custom illustrations & iconography',
+      'Presentation & pitch deck design',
+      'Unlimited revisions within scope',
+    ],
+    startingPrice: 'From $450',
+  },
+  {
+    id: 'ui-ux-design',
+    icon: Figma,
+    iconColorClass: 'text-purple-400',
+    bgGradientClass: 'bg-gradient-to-br from-purple-500/10 to-purple-500/5 dark:bg-purple-500/10',
+    borderColorClass: 'border-purple-500/20 border-purple-500/10',
+    title: 'UI/UX Design',
+    description: 'Intuitive, user-centered interfaces that delight users and drive engagement and conversions.',
+    hoverTextClass: 'text-accent',
+    longDescription:
+      'Good UI/UX design disappears — users just get where they need to go. I research, wireframe, and prototype in Figma, then test and refine until the interface feels effortless, on web and mobile alike.',
+    features: [
+      'User research & journey mapping',
+      'Wireframes & interactive prototypes',
+      'Design systems & component libraries',
+      'Usability testing & iteration',
+      'Developer-ready handoff files',
+    ],
+    startingPrice: 'From $1,200',
+  },
+  {
+    id: 'web-development',
+    icon: Code2,
+    iconColorClass: 'text-cyan-400',
+    bgGradientClass: 'bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 dark:bg-cyan-500/10',
+    borderColorClass: 'border-cyan-500/20 border-cyan-500/10',
+    title: 'Web Development',
+    description: 'Pixel-perfect, performant websites built with modern tech stacks and clean, scalable code.',
+    hoverTextClass: 'text-cyan-400',
+    longDescription:
+      'I build fast, responsive websites and web apps using modern frameworks like React and Next.js. Clean, maintainable code, accessible markup, and performance budgets are non-negotiable on every build.',
+    features: [
+      'Custom React / Next.js builds',
+      'CMS integration (headless or traditional)',
+      'Performance & SEO optimization',
+      'Responsive, cross-browser testing',
+      'Ongoing maintenance & support plans',
+    ],
+    startingPrice: 'From $2,000',
+  },
+  {
+    id: 'photography',
+    icon: Camera,
+    iconColorClass: 'text-amber-400',
+    bgGradientClass: 'bg-gradient-to-br from-amber-500/10 to-amber-500/5 dark:bg-amber-500/10',
+    borderColorClass: 'border-amber-500/20 border-amber-500/10',
+    title: 'Photography',
+    description: 'Professional photography that captures authentic moments and elevates your visual narrative.',
+    hoverTextClass: 'text-amber-400',
+    longDescription:
+      'Whether it is product shots, editorial portraits, or an event, I bring a cinematic eye and a fast turnaround. Every shoot includes a pre-shoot consultation so the final gallery matches your vision.',
+    features: [
+      'Product & e-commerce photography',
+      'Editorial & portrait sessions',
+      'Event coverage',
+      'Professional retouching included',
+      'Fast 48-hour preview turnaround',
+    ],
+    startingPrice: 'From $350 / session',
+  },
+  {
+    id: 'videography',
+    icon: Video,
+    iconColorClass: 'text-rose-400',
+    bgGradientClass: 'bg-gradient-to-br from-rose-500/10 to-rose-500/5 dark:bg-rose-500/10',
+    borderColorClass: 'border-rose-500/20 border-rose-500/10',
+    title: 'Videography',
+    description: 'Cinematic video production from concept to final cut that tells your story beautifully.',
+    hoverTextClass: 'text-rose-400',
+    longDescription:
+      'From concept to final color grade, I produce brand films, product launches, and social content that hold attention and drive action. Full-service production means one point of contact from script to delivery.',
+    features: [
+      'Brand films & product launches',
+      'Social media video content',
+      'Scriptwriting & storyboarding',
+      'Professional color grading & sound design',
+      'Multiple format exports (16:9, 9:16, 1:1)',
+    ],
+    startingPrice: 'From $1,800',
+  },
+  {
+    id: 'branding',
+    icon: Crown,
+    iconColorClass: 'text-emerald-400',
+    bgGradientClass: 'bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 dark:bg-emerald-500/10',
+    borderColorClass: 'border-emerald-500/20 border-emerald-500/10',
+    title: 'Branding',
+    description: 'Comprehensive brand strategy and identity systems that make you memorable and iconic.',
+    hoverTextClass: 'text-emerald-400',
+    longDescription:
+      'A brand is more than a logo — it is a system. I define your positioning, voice, and visual identity, then package it into guidelines your whole team can use consistently across every touchpoint.',
+    features: [
+      'Brand strategy & positioning',
+      'Logo & visual identity systems',
+      'Brand guideline documents',
+      'Naming & messaging support',
+      'Launch collateral (business cards, letterhead, etc.)',
+    ],
+    startingPrice: 'From $2,500',
+  },
+];
