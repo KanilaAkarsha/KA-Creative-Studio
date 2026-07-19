@@ -36,11 +36,13 @@ export default function GoogleAuthButton({ onSuccess }: GoogleAuthButtonProps) {
       </div>
       <div className="flex justify-center [&>div]:w-full">
         <GoogleLogin
-          onSuccess={handleSuccess}
-          onError={() => showToast('Google sign-in failed. Please try again.', 'error')}
-          theme="outline"
-          shape="circle"
-          width="80%"
+            onSuccess={handleSuccess}
+            onError={() => showToast("Google sign-in failed.", "error")}
+            theme="filled_blue"
+            size="large"
+            text="signin_with"
+            shape="pill"
+            width="100%"
         />
       </div>
     </div>

@@ -46,7 +46,7 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? 'glass border-b dark:border-white/5 border-black/5' : ''
+        scrolled ? 'md:glass md:border-b md:dark:border-white/5 md:border-black/5' : ''
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
