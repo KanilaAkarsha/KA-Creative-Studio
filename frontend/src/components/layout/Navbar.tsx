@@ -46,7 +46,7 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? 'md:glass md:border-b md:dark:border-white/5 md:border-black/5' : ''
+        scrolled ? 'glass h-20 border-b dark:border-white/5 border-black/5' : ''
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -142,7 +142,7 @@ export default function Navbar() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMenuOpen((prev) => !prev)}
-              className="lg:hidden w-10 h-10 rounded-xl dark:bg-white/5 bg-black/5 dark:hover:bg-white/10 hover:bg-black/10 flex items-center justify-center transition-all duration-300"
+              className="lg:hidden w-10 h-10  rounded-xl dark:bg-white/5 bg-black/5 dark:hover:bg-white/10 hover:bg-black/10 flex items-center justify-center transition-all duration-300"
               aria-label="Menu"
             >
               {menuOpen ? (
