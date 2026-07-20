@@ -13,7 +13,7 @@ import analyticsRoutes from './routes/analytics.js';
 import userRoutes from './routes/users.js';
 import projectRoutes from './routes/projects.js';
 import serviceRoutes from './routes/services.js';
-import reviewRoutes from './routes/reviews.js';
+import reviewRoutes from './routes/reviews.js'; // added near the other route imports
 import { handleStripeWebhook } from './controllers/paymentController.js';
 import { notFound, errorHandler } from './middleware/errorHandler.js';
 

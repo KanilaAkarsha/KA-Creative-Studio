@@ -62,11 +62,24 @@ export interface SkillItem {
   percentage: number;
 }
 
-export interface ContactFormData {
+export interface ContactMessage {
+  _id: string;
+  sender: 'user' | 'admin';
+  text: string;
+  createdAt: string;
+}
+
+export interface ContactThread {
+  _id: string;
+  user: string | { _id: string; name: string; email: string };
   name: string;
   email: string;
   service: string;
-  message: string;
+  preferredDate?: string;
+  status: 'new' | 'read' | 'replied' | 'archived';
+  messages: ContactMessage[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type UserRole = 'customer' | 'admin';
@@ -99,16 +112,6 @@ export interface Order {
   title: string;
   price: number;
   status: 'pending' | 'completed' | 'refunded' | 'failed';
-  createdAt: string;
-}
-
-export interface ContactSubmission {
-  _id: string;
-  name: string;
-  email: string;
-  service: string;
-  message: string;
-  status: 'new' | 'read' | 'archived';
   createdAt: string;
 }
 
