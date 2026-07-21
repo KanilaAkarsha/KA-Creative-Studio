@@ -1,104 +1,82 @@
-import { useEffect, useRef, useState } from "react";
-import { Loader2 } from "lucide-react";
-import { FcGoogle } from "react-icons/fc";
-
-import { useAuth } from "../../context/AuthContext";
-import { useToast } from "../../context/ToastContext";
-import type { AuthUser } from "../../types";
+import { useState } from 'react';
+import { useGoogleLogin } from '@react-oauth/google';
+import { Loader2 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
+import type { AuthUser } from '../../types';
 
 interface GoogleAuthButtonProps {
     onSuccess: (user: AuthUser) => void;
 }
 
-declare global {
-    interface Window {
-        google: any;
-    }
+function GoogleIcon() {
+    return (
+        <svg className="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+                fill="#4285F4"
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
+            />
+            <path
+                fill="#34A853"
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"
+            />
+            <path
+                fill="#FBBC05"
+                d="M5.84 14.09A6.6 6.6 0 0 1 5.5 12c0-.73.12-1.43.34-2.09V7.07H2.18A11 11 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z"
+            />
+            <path
+                fill="#EA4335"
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+            />
+        </svg>
+    );
 }
 
-export default function GoogleAuthButton({
-                                             onSuccess,
-                                         }: GoogleAuthButtonProps) {
+export default function GoogleAuthButton({ onSuccess }: GoogleAuthButtonProps) {
     const { loginWithGoogle } = useAuth();
     const { showToast } = useToast();
+    const [isVerifying, setIsVerifying] = useState(false);
 
-    const [loading, setLoading] = useState(false);
-    const hiddenButton = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        if (!window.google) return;
-
-        window.google.accounts.id.initialize({
-            client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-
-            callback: async (response: any) => {
-                try {
-                    setLoading(true);
-
-                    const user = await loginWithGoogle(response.credential);
-
-                    onSuccess(user);
-                } catch (err: any) {
-                    showToast(
-                        err?.response?.data?.message ||
-                        "Google sign-in failed.",
-                        "error"
-                    );
-                } finally {
-                    setLoading(false);
-                }
-            },
-        });
-
-        window.google.accounts.id.renderButton(hiddenButton.current, {
-            theme: "outline",
-            size: "large",
-            width: 250,
-        });
-    }, []);
-
-    const handleGoogleClick = () => {
-        const btn =
-            hiddenButton.current?.querySelector("div[role='button']") as HTMLElement;
-
-        btn?.click();
-    };
+    const login = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            setIsVerifying(true);
+            try {
+                const user = await loginWithGoogle(tokenResponse.access_token);
+                onSuccess(user);
+            } catch (err) {
+                const message =
+                    (err as { response?: { data?: { message?: string } } })?.response?.data?.message ||
+                    'Google sign-in failed. Please try again.';
+                showToast(message, 'error');
+            } finally {
+                setIsVerifying(false);
+            }
+        },
+        onError: () => showToast('Google sign-in failed. Please try again.', 'error'),
+    });
 
     return (
         <div className="space-y-5">
             <div className="flex items-center gap-3">
                 <div className="h-px flex-1 dark:bg-white/10 bg-black/10" />
-                <span className="text-xs dark:text-txt-secondary text-txt-muted">
-          or continue with
-        </span>
+                <span className="text-xs dark:text-txt-secondary text-txt-muted">or continue with</span>
                 <div className="h-px flex-1 dark:bg-white/10 bg-black/10" />
             </div>
 
-            {/* Hidden Google button */}
-            <div
-                ref={hiddenButton}
-                style={{
-                    position: "absolute",
-                    opacity: 0,
-                    pointerEvents: "none",
-                }}
-            />
-
-            {/* Your custom button */}
             <button
                 type="button"
-                onClick={handleGoogleClick}
-                disabled={loading}
-                className="btn-glow w-full flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-transparent border-2 border-primary dark:text-white text-black font-semibold transition-all duration-300 hover:shadow-xl hover:shadow-primary/25 disabled:opacity-70 disabled:cursor-not-allowed"
+                onClick={() => login()}
+                disabled={isVerifying}
+                className="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-xl dark:bg-white/5 bg-black/5 border dark:border-white/10 border-black/10 dark:text-txt-primary text-txt-dark font-semibold transition-all duration-300 hover:border-primary/50 hover:bg-primary/5 disabled:opacity-70 disabled:cursor-not-allowed"
             >
-                {loading ? (
+                {isVerifying ? (
                     <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <Loader2 className="w-4 h-4 animate-spin" />
                         <span>Signing in...</span>
                     </>
                 ) : (
                     <>
-                        <FcGoogle className="w-5 h-5" />
+                        <GoogleIcon />
                         <span>Continue with Google</span>
                     </>
                 )}

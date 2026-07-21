@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
 import { validationResult } from 'express-validator';
 import User from '../models/User.js';
-import { verifyGoogleIdToken } from '../config/google.js';
+import { fetchGoogleUserInfo } from '../config/google.js';
 
 function signToken(id) {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -73,23 +73,23 @@ export const login = asyncHandler(async (req, res) => {
   sendAuthResponse(user, 200, res);
 });
 
-// @desc    Log in or sign up with a Google ID token
+// @desc    Log in or sign up using a Google OAuth access token
 // @route   POST /api/auth/google
 // @access  Public
 export const googleLogin = asyncHandler(async (req, res) => {
-  const { credential } = req.body;
+  const { accessToken } = req.body;
 
-  if (!credential) {
+  if (!accessToken) {
     res.status(400);
-    throw new Error('Google credential is required');
+    throw new Error('Google access token is required');
   }
 
   let payload;
   try {
-    payload = await verifyGoogleIdToken(credential);
+    payload = await fetchGoogleUserInfo(accessToken);
   } catch {
     res.status(401);
-    throw new Error('Invalid Google credential');
+    throw new Error('Invalid Google access token');
   }
 
   const { sub: googleId, email, name, picture } = payload;
