@@ -4,17 +4,21 @@ import { Send, Loader2, Calendar } from 'lucide-react';
 import { contactFormSchema, type ContactFormValues } from '../../lib/validation';
 import { useSubmitContact } from '../../hooks/useContacts';
 import { useToast } from '../../context/ToastContext';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import {SetStateAction, useState} from "react";
 
 const SERVICES = ['Graphic Design', 'UI/UX Design', 'Web Development', 'Photography', 'Videography', 'Branding'];
 
 export default function ContactForm() {
-  const { showToast } = useToast();
+  const {showToast} = useToast();
   const mutation = useSubmitContact();
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: {errors, isSubmitting},
   } = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
   });
@@ -59,16 +63,26 @@ export default function ContactForm() {
 
           <div>
             <label className="block text-sm font-medium dark:text-txt-primary text-txt-dark mb-2">
-              Preferred Date <span className="dark:text-txt-secondary text-txt-muted font-normal">(optional)</span>
+              Preferred Date
+              <span className="dark:text-txt-secondary text-txt-muted font-normal">
+      {" "}
+                (optional)
+    </span>
             </label>
+
             <div className="relative">
-              <input
-                  type="date"
-                  min={today}
-                  {...register('preferredDate')}
-                  className="form-input w-full px-4 py-3.5 rounded-xl dark:bg-dark-surface bg-light-surface border dark:border-white/10 border-black/10 dark:text-txt-primary text-txt-dark transition-all duration-300 text-sm [color-scheme:dark]"
+              <Calendar
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 z-10 pointer-events-none"/>
+
+              <DatePicker
+                  selected={selectedDate}
+                  onChange={(date: SetStateAction<Date | null>) => {
+                    setSelectedDate(date);
+                  }}
+                  minDate={new Date()}
+                  placeholderText="Select a date"
+                  className="w-full rounded-xl border dark:border-white/10 border-black/10 bg-light-surface dark:bg-dark-surface py-3.5 pl-12 pr-4 text-sm dark:text-white text-black outline-none focus:ring-2 focus:ring-primary transition"
               />
-              <Calendar className="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none dark:text-txt-secondary text-txt-muted" />
             </div>
           </div>
         </div>
