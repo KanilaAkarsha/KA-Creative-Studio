@@ -13,7 +13,7 @@ export default function ContactInfo() {
           </div>
           <div>
             <h4 className="font-heading font-semibold dark:text-txt-primary text-txt-dark text-sm mb-1">Email</h4>
-            <p className="text-sm dark:text-txt-secondary text-txt-muted">hello@kacreative.studio</p>
+            <p className="text-sm dark:text-txt-secondary text-txt-muted">kanilasaman1@gmail.com</p>
           </div>
         </div>
       </Reveal>
@@ -28,7 +28,7 @@ export default function ContactInfo() {
               Location
             </h4>
             <p className="text-sm dark:text-txt-secondary text-txt-muted">
-              San Francisco, CA
+              Welipannagahamulla, Kurunagala, Sri Lanka.
               <br />
               Available worldwide
             </p>
