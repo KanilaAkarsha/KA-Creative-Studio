@@ -27,6 +27,7 @@ export function useMyContacts(enabled: boolean) {
     queryKey: ['contacts', 'me'],
     queryFn: fetchMyContacts,
     enabled,
+    refetchInterval: enabled ? 20000 : false,
   });
 }
 
@@ -40,6 +41,7 @@ export function useContacts(enabled: boolean) {
     queryKey: ['contacts', 'all'],
     queryFn: fetchContacts,
     enabled,
+    refetchInterval: enabled ? 20000 : false,
   });
 }
 
