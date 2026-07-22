@@ -5,7 +5,7 @@ import DashboardLayout from '../components/dashboard/DashboardLayout';
 import MyMessagesPanel from '../components/dashboard/MyMessagesPanel';
 import { useMyOrders, useDownloadLink } from '../hooks/useOrders';
 import { useMyContacts } from '../hooks/useContacts';
-import { useUnrepliedNotifier } from '../hooks/useUnrepliedNotifier';
+import { countAwaitingReply } from '../lib/contactThread';
 import { useToast } from '../context/ToastContext';
 import type { Order } from '../types';
 
@@ -123,10 +123,10 @@ export default function Account() {
     const [searchParams, setSearchParams] = useSearchParams();
     const { showToast } = useToast();
 
-    // Kept mounted here (not just inside MyMessagesPanel) so the unreplied
-    // count and new-reply toast keep working no matter which tab is active.
+    // Badge count only — the "new reply" toast now fires from the Navbar
+    // (mounted on every page), so it doesn't double-fire here too.
     const { data: threads } = useMyContacts(true);
-    const unrepliedCount = useUnrepliedNotifier(threads, 'user');
+    const unrepliedCount = countAwaitingReply(threads, 'user');
 
     useEffect(() => {
         const checkout = searchParams.get('checkout');

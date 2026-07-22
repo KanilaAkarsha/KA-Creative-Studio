@@ -10,7 +10,7 @@ import ServicesPanel from '../components/dashboard/ServicesPanel';
 import ProductsPanel from '../components/dashboard/ProductsPanel';
 import ReviewsPanel from '../components/dashboard/ReviewsPanel';
 import { useContacts } from '../hooks/useContacts';
-import { useUnrepliedNotifier } from '../hooks/useUnrepliedNotifier';
+import { countAwaitingReply } from '../lib/contactThread';
 
 type Tab = 'contacts' | 'orders' | 'analytics' | 'users' | 'projects' | 'services' | 'products' | 'reviews';
 
@@ -28,10 +28,10 @@ const TABS: Array<{ id: Tab; label: string; icon: typeof Mail }> = [
 export default function Admin() {
   const [tab, setTab] = useState<Tab>('analytics');
 
-  // Kept mounted here (not just inside ContactsPanel) so the unreplied count
-  // and new-message toast keep working no matter which tab is active.
+  // Badge count only — the "new message" toast now fires from the Navbar
+  // (mounted on every page), so it doesn't double-fire here too.
   const { data: threads } = useContacts(true);
-  const unrepliedCount = useUnrepliedNotifier(threads, 'admin');
+  const unrepliedCount = countAwaitingReply(threads, 'admin');
 
   return (
       <DashboardLayout

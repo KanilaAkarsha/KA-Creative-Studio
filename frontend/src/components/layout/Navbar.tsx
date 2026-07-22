@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
 import { useScrollSpy } from '../../hooks/useScrollSpy';
 import { useMyContacts, useContacts } from '../../hooks/useContacts';
-import { countAwaitingReply } from '../../lib/contactThread';
+import { useUnrepliedNotifier } from '../../hooks/useUnrepliedNotifier';
 import MobileMenu from './MobileMenu';
 
 const NAV_LINKS = [
@@ -30,13 +30,16 @@ export default function Navbar() {
 
   const scrolled = scrollY > 50;
 
-  // Notification dot only — the toast itself fires from within the
-  // Account/Admin pages so it doesn't double-fire while those are also
-  // mounted (Navbar renders there too).
+  // The Navbar is mounted on nearly every page (everywhere except /login and
+  // /register), so this is the one place we trigger the "new message" toast
+  // — customers and admins both get notified no matter what page they're on,
+  // not just while sitting on /account or /admin. Admin.tsx and Account.tsx
+  // only show the badge count now (no second toast) to avoid double-firing.
   const { data: customerThreads } = useMyContacts(!!user && user.role === 'customer');
   const { data: adminThreads } = useContacts(!!user && user.role === 'admin');
-  const unrepliedCount =
-      user?.role === 'admin' ? countAwaitingReply(adminThreads, 'admin') : countAwaitingReply(customerThreads, 'user');
+  const relevantThreads = user?.role === 'admin' ? adminThreads : customerThreads;
+  const relevantViewer = user?.role === 'admin' ? 'admin' : 'user';
+  const unrepliedCount = useUnrepliedNotifier(user ? relevantThreads : undefined, relevantViewer);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
