@@ -43,17 +43,28 @@ function ThreadCard({ thread }: { thread: ContactThread }) {
                     >
             {meta.label}
           </span>
-                    {thread.preferredDate && (
-                        <span className="flex items-center gap-1 text-xs dark:text-txt-secondary text-txt-muted">
-              <Calendar className="w-3 h-3" />
-                            {new Date(thread.preferredDate).toLocaleDateString()}
-            </span>
-                    )}
                 </div>
                 <span className="text-xs dark:text-txt-secondary text-txt-muted">
           {new Date(thread.createdAt).toLocaleDateString()}
         </span>
             </div>
+
+            {thread.preferredDate && (
+                <div className="px-5 pt-4">
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/20 w-fit">
+                        <Calendar className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                        <span className="text-xs font-medium text-amber-400">
+              Your requested date:{' '}
+                            {new Date(thread.preferredDate).toLocaleDateString(undefined, {
+                                weekday: 'long',
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                            })}
+            </span>
+                    </div>
+                </div>
+            )}
 
             <div className="p-5 space-y-3 max-h-80 overflow-y-auto">
                 {thread.messages.map((msg) => (
